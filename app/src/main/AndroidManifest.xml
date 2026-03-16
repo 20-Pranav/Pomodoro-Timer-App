@@ -13,9 +13,9 @@
         android:theme="@style/Theme.PomodoroTimer"
         tools:targetApi="31">
 
-        <!-- Main Activity -->
+        <!-- Splash Activity (LAUNCHER) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,12 @@
             </intent-filter>
         </activity>
 
-        <!-- HISTORY ACTIVITY - THIS WAS MISSING! -->
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- History Activity -->
         <activity
             android:name=".HistoryActivity"
             android:exported="false" />
