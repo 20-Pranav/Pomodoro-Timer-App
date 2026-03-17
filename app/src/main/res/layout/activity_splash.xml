@@ -8,83 +8,97 @@
     android:padding="30dp"
     android:background="@color/background">
 
-    <!-- Tomato Icon -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="🍅"
-        android:textSize="120sp"
-        android:layout_marginBottom="15dp" />
+        android:textSize="100sp"
+        android:layout_marginBottom="20dp" />
 
-    <!-- App Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="POMODORO TIMER"
-        android:textSize="40sp"
+        android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="@color/primary"
         android:gravity="center"
-        android:layout_marginBottom="20dp" />
-
-    <!-- Purpose Statement Header -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Designed for students to:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:gravity="center"
         android:layout_marginBottom="10dp" />
 
-    <!-- Bullet Points -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="• Improve focus during study"
-        android:textSize="18sp"
-        android:textColor="@color/text_secondary"
-        android:gravity="center"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="• Maintain productivity"
-        android:textSize="18sp"
-        android:textColor="@color/text_secondary"
-        android:gravity="center"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="• Build consistent habits"
-        android:textSize="18sp"
-        android:textColor="@color/text_secondary"
-        android:gravity="center"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="• Track daily progress"
+        android:text="Stay focused, be productive"
         android:textSize="18sp"
         android:textColor="@color/text_secondary"
         android:gravity="center"
         android:layout_marginBottom="30dp" />
 
-    <!-- Get Started Button -->
-    <Button
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🎯 Designed for Students"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:gravity="center"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Improve focus during study"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Track your progress"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Build better habits"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Take regular breaks"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\&quot;The secret of getting ahead is getting started.\&quot;"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="30dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/getStartedButton"
         android:layout_width="220dp"
-        android:layout_height="60dp"
-        android:text="START STUDYING"
+        android:layout_height="64dp"
+        android:text="START FOCUSING"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:backgroundTint="@color/primary"
-        app:cornerRadius="30dp" />
+        app:cornerRadius="32dp" />
 
 </LinearLayout>
