@@ -1,9 +1,11 @@
 package com.pranavbarbade.pomodorotimer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView focusValue, breakValue;
     private TextView modeText;
     private Button skipBreakButton;
+
+    // Purpose buttons
+    private Button studyPurposeButton, workPurposeButton, otherPurposeButton;
+    private String selectedPurpose = "study";
 
     // Timer variables
     private CountDownTimer countDownTimer;
@@ -79,12 +85,17 @@ public class MainActivity extends AppCompatActivity {
         modeText = findViewById(R.id.modeText);
         skipBreakButton = findViewById(R.id.skipBreakButton);
 
+        // Purpose buttons
+        studyPurposeButton = findViewById(R.id.studyPurposeButton);
+        workPurposeButton = findViewById(R.id.workPurposeButton);
+        otherPurposeButton = findViewById(R.id.otherPurposeButton);
+
         // Set up Focus SeekBar (1 to 120 minutes)
         focusSeekBar.setMax(120);
         focusSeekBar.setProgress(focusMinutes);
         focusValue.setText(focusMinutes + " min");
 
-        // Set up Break SeekBar (1 to 30 minutes) - NEW
+        // Set up Break SeekBar (1 to 30 minutes)
         breakSeekBar.setMax(30);
         breakSeekBar.setProgress(breakMinutes);
         breakValue.setText(breakMinutes + " min");
@@ -102,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize database helper
         dbHelper = new DatabaseHelper(this);
+
+        // Set default purpose selection
+        studyPurposeButton.setAlpha(1.0f);
+        workPurposeButton.setAlpha(0.5f);
+        otherPurposeButton.setAlpha(0.5f);
 
         // Focus SeekBar change listener
         focusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -126,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
-        // Break SeekBar change listener (NEW)
+        // Break SeekBar change listener
         breakSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -147,6 +163,37 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+
+        // Purpose button click listeners
+        studyPurposeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedPurpose = "study";
+                studyPurposeButton.setAlpha(1.0f);
+                workPurposeButton.setAlpha(0.5f);
+                otherPurposeButton.setAlpha(0.5f);
+            }
+        });
+
+        workPurposeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedPurpose = "work";
+                studyPurposeButton.setAlpha(0.5f);
+                workPurposeButton.setAlpha(1.0f);
+                otherPurposeButton.setAlpha(0.5f);
+            }
+        });
+
+        otherPurposeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedPurpose = "other";
+                studyPurposeButton.setAlpha(0.5f);
+                workPurposeButton.setAlpha(0.5f);
+                otherPurposeButton.setAlpha(1.0f);
+            }
         });
 
         // Button click listeners
@@ -216,17 +263,19 @@ public class MainActivity extends AppCompatActivity {
                         // Break finished
                         Toast.makeText(MainActivity.this, "Break finished! Ready to focus? 🎯", Toast.LENGTH_LONG).show();
                         playFinishSound();
+                        addVibration();
                         resetToFocusMode();
                     } else {
                         // Focus session finished
                         timerText.setText("00:00");
                         progressBar.setProgress(100);
 
-                        // Save completed session to database
+                        // Save completed session to database with purpose
                         saveSessionToDatabase();
 
                         Toast.makeText(MainActivity.this, "Focus session completed! Time for a break ☕", Toast.LENGTH_LONG).show();
                         playFinishSound();
+                        addVibration();
 
                         // Start break
                         startBreak();
@@ -306,8 +355,8 @@ public class MainActivity extends AppCompatActivity {
         String currentDate = dateFormat.format(new Date());
         String currentTime = timeFormat.format(new Date());
 
-        dbHelper.addSession(currentDate, currentTime, focusMinutes);
-        Toast.makeText(MainActivity.this, "Session saved: " + focusMinutes + " min", Toast.LENGTH_SHORT).show();
+        dbHelper.addSession(currentDate, currentTime, focusMinutes, selectedPurpose);
+        Toast.makeText(MainActivity.this, "Session saved: " + focusMinutes + " min (" + selectedPurpose + ")", Toast.LENGTH_SHORT).show();
     }
 
     private void updateModeDisplay() {
@@ -361,6 +410,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 mediaPlayer.start();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addVibration() {
+        try {
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                vibrator.vibrate(500);
             }
         } catch (Exception e) {
             e.printStackTrace();
