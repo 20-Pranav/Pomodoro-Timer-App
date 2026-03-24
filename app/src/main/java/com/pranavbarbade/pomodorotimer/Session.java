@@ -5,15 +5,15 @@ public class Session {
     private String date;
     private String time;
     private int duration;
-    private String purpose;
+    private String subject;
 
     // Constructor
-    public Session(int id, String date, String time, int duration, String purpose) {
+    public Session(int id, String date, String time, int duration, String subject) {
         this.id = id;
         this.date = date;
         this.time = time;
         this.duration = duration;
-        this.purpose = purpose;
+        this.subject = subject;
     }
 
     // Getters
@@ -21,12 +21,12 @@ public class Session {
     public String getDate() { return date; }
     public String getTime() { return time; }
     public int getDuration() { return duration; }
-    public String getPurpose() { return purpose; }
+    public String getSubject() { return subject; }
 
     // Setters
     public void setId(int id) { this.id = id; }
     public void setDate(String date) { this.date = date; }
     public void setTime(String time) { this.time = time; }
     public void setDuration(int duration) { this.duration = duration; }
-    public void setPurpose(String purpose) { this.purpose = purpose; }
+    public void setSubject(String subject) { this.subject = subject; }
 }

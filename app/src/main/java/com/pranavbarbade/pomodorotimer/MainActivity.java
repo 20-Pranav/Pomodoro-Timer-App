@@ -9,6 +9,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -35,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView modeText;
     private Button skipBreakButton;
 
-    // Purpose buttons
-    private Button studyPurposeButton, workPurposeButton, otherPurposeButton;
-    private String selectedPurpose = "study";
+    // Subject input
+    private EditText subjectInput;
 
     // Timer variables
     private CountDownTimer countDownTimer;
@@ -85,10 +85,8 @@ public class MainActivity extends AppCompatActivity {
         modeText = findViewById(R.id.modeText);
         skipBreakButton = findViewById(R.id.skipBreakButton);
 
-        // Purpose buttons
-        studyPurposeButton = findViewById(R.id.studyPurposeButton);
-        workPurposeButton = findViewById(R.id.workPurposeButton);
-        otherPurposeButton = findViewById(R.id.otherPurposeButton);
+        // Subject input
+        subjectInput = findViewById(R.id.subjectInput);
 
         // Set up Focus SeekBar (1 to 120 minutes)
         focusSeekBar.setMax(120);
@@ -113,11 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize database helper
         dbHelper = new DatabaseHelper(this);
-
-        // Set default purpose selection
-        studyPurposeButton.setAlpha(1.0f);
-        workPurposeButton.setAlpha(0.5f);
-        otherPurposeButton.setAlpha(0.5f);
 
         // Focus SeekBar change listener
         focusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -163,37 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        // Purpose button click listeners
-        studyPurposeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedPurpose = "study";
-                studyPurposeButton.setAlpha(1.0f);
-                workPurposeButton.setAlpha(0.5f);
-                otherPurposeButton.setAlpha(0.5f);
-            }
-        });
-
-        workPurposeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedPurpose = "work";
-                studyPurposeButton.setAlpha(0.5f);
-                workPurposeButton.setAlpha(1.0f);
-                otherPurposeButton.setAlpha(0.5f);
-            }
-        });
-
-        otherPurposeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedPurpose = "other";
-                studyPurposeButton.setAlpha(0.5f);
-                workPurposeButton.setAlpha(0.5f);
-                otherPurposeButton.setAlpha(1.0f);
-            }
         });
 
         // Button click listeners
@@ -270,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         timerText.setText("00:00");
                         progressBar.setProgress(100);
 
-                        // Save completed session to database with purpose
+                        // Save completed session to database with subject
                         saveSessionToDatabase();
 
                         Toast.makeText(MainActivity.this, "Focus session completed! Time for a break ☕", Toast.LENGTH_LONG).show();
@@ -355,8 +317,17 @@ public class MainActivity extends AppCompatActivity {
         String currentDate = dateFormat.format(new Date());
         String currentTime = timeFormat.format(new Date());
 
-        dbHelper.addSession(currentDate, currentTime, focusMinutes, selectedPurpose);
-        Toast.makeText(MainActivity.this, "Session saved: " + focusMinutes + " min (" + selectedPurpose + ")", Toast.LENGTH_SHORT).show();
+        // Get subject from input field (default to "General" if empty)
+        String subject = subjectInput.getText().toString().trim();
+        if (subject.isEmpty()) {
+            subject = "General";
+        }
+
+        dbHelper.addSession(currentDate, currentTime, focusMinutes, subject);
+        Toast.makeText(MainActivity.this, "Session saved: " + focusMinutes + " min (" + subject + ")", Toast.LENGTH_SHORT).show();
+
+        // Clear subject input for next session
+        subjectInput.setText("");
     }
 
     private void updateModeDisplay() {

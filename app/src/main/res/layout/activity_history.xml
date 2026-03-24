@@ -21,7 +21,7 @@
         android:gravity="center"
         android:layout_marginBottom="15dp" />
 
-    <!-- Congratulations Message with Clapping Emojis -->
+    <!-- Congratulations Message -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,11 +93,11 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Session Purpose Summary -->
+    <!-- Subject Summary -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="📚 Session Purpose Summary"
+        android:text="📚 Subject Summary"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/primary"
@@ -111,38 +111,14 @@
         app:cardElevation="4dp"
         app:cardBackgroundColor="@color/card_background">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/subjectSummaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-            <TextView
-                android:id="@+id/studyPurposeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📖 Study sessions: 0"
-                android:textSize="16sp"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/workPurposeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="💼 Work sessions: 0"
-                android:textSize="16sp"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/otherPurposeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="🎯 Other sessions: 0"
-                android:textSize="16sp"
-                android:textColor="@color/text_primary" />
-        </LinearLayout>
+            android:text="📚 Study: 0  |  💼 Work: 0  |  🎯 Other: 0"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:padding="16sp" />
     </androidx.cardview.widget.CardView>
 
     <!-- Filter Buttons -->
@@ -171,7 +147,7 @@
             android:text="Study"
             android:textSize="14sp"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#FF9800"
+            android:backgroundTint="#4CAF50"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp" />
 
@@ -183,7 +159,19 @@
             android:text="Work"
             android:textSize="14sp"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="#FF9800"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp" />
+
+        <Button
+            android:id="@+id/otherSessionsButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Other"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#9C27B0"
             android:layout_marginStart="5dp" />
     </LinearLayout>
 

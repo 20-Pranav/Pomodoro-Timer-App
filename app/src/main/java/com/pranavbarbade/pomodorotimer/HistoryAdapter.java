@@ -31,22 +31,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.timeText.setText(session.getTime());
         holder.durationText.setText(session.getDuration() + " min");
 
-        // Set purpose with emoji
-        String purpose = session.getPurpose();
-        if (purpose != null) {
-            if (purpose.equals("study")) {
-                holder.purposeText.setText("📚 Study");
-                holder.purposeText.setTextColor(holder.itemView.getContext().getColor(R.color.primary));
-            } else if (purpose.equals("work")) {
-                holder.purposeText.setText("💼 Work");
-                holder.purposeText.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_orange_dark));
+        // Set subject with emoji
+        String subject = session.getSubject();
+        if (subject != null) {
+            if (subject.equalsIgnoreCase("study")) {
+                holder.subjectText.setText("📚 " + subject);
+            } else if (subject.equalsIgnoreCase("work")) {
+                holder.subjectText.setText("💼 " + subject);
+            } else if (subject.equalsIgnoreCase("other")) {
+                holder.subjectText.setText("🎯 " + subject);
             } else {
-                holder.purposeText.setText("🎯 Other");
-                holder.purposeText.setTextColor(holder.itemView.getContext().getColor(R.color.accent));
+                holder.subjectText.setText("📖 " + subject);
             }
         } else {
-            holder.purposeText.setText("📚 Study");
-            holder.purposeText.setTextColor(holder.itemView.getContext().getColor(R.color.primary));
+            holder.subjectText.setText("📖 General");
         }
     }
 
@@ -56,14 +54,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView dateText, timeText, durationText, purposeText;
+        TextView dateText, timeText, durationText, subjectText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             dateText = itemView.findViewById(R.id.dateText);
             timeText = itemView.findViewById(R.id.timeText);
             durationText = itemView.findViewById(R.id.durationText);
-            purposeText = itemView.findViewById(R.id.purposeText);
+            subjectText = itemView.findViewById(R.id.subjectText);
         }
     }
 }

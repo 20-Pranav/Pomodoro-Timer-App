@@ -15,8 +15,8 @@ public class HistoryActivity extends AppCompatActivity {
     private HistoryAdapter adapter;
     private DatabaseHelper dbHelper;
     private TextView totalSessionsText, totalTimeText;
-    private TextView studyPurposeText, workPurposeText, otherPurposeText;
-    private Button allButton, studyButton, workButton;
+    private TextView subjectSummaryText;
+    private Button allButton, studyButton, workButton, otherButton;
     private List<Session> currentSessionList;
 
     @Override
@@ -28,12 +28,11 @@ public class HistoryActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         totalSessionsText = findViewById(R.id.totalSessionsText);
         totalTimeText = findViewById(R.id.totalTimeText);
-        studyPurposeText = findViewById(R.id.studyPurposeText);
-        workPurposeText = findViewById(R.id.workPurposeText);
-        otherPurposeText = findViewById(R.id.otherPurposeText);
+        subjectSummaryText = findViewById(R.id.subjectSummaryText);
         allButton = findViewById(R.id.allSessionsButton);
         studyButton = findViewById(R.id.studySessionsButton);
         workButton = findViewById(R.id.workSessionsButton);
+        otherButton = findViewById(R.id.otherSessionsButton);
 
         // Initialize database
         dbHelper = new DatabaseHelper(this);
@@ -41,8 +40,8 @@ public class HistoryActivity extends AppCompatActivity {
         // Load all sessions
         loadSessions(dbHelper.getAllSessions());
 
-        // Update purpose counts
-        updatePurposeCounts();
+        // Update subject summary
+        updateSubjectSummary();
 
         // Button click listeners for filtering
         allButton.setOnClickListener(new View.OnClickListener() {
@@ -55,14 +54,21 @@ public class HistoryActivity extends AppCompatActivity {
         studyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadSessions(dbHelper.getSessionsByPurpose("study"));
+                loadSessions(dbHelper.getSessionsBySubject("Study"));
             }
         });
 
         workButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadSessions(dbHelper.getSessionsByPurpose("work"));
+                loadSessions(dbHelper.getSessionsBySubject("Work"));
+            }
+        });
+
+        otherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadSessions(dbHelper.getSessionsBySubject("Other"));
             }
         });
     }
@@ -83,13 +89,29 @@ public class HistoryActivity extends AppCompatActivity {
         totalTimeText.setText("Total time: " + hours + "h " + mins + "m");
     }
 
-    private void updatePurposeCounts() {
-        int studyCount = dbHelper.getSessionCountByPurpose("study");
-        int workCount = dbHelper.getSessionCountByPurpose("work");
-        int otherCount = dbHelper.getSessionCountByPurpose("other");
+    private void updateSubjectSummary() {
+        List<Session> allSessions = dbHelper.getAllSessions();
 
-        studyPurposeText.setText("📖 Study sessions: " + studyCount);
-        workPurposeText.setText("💼 Work sessions: " + workCount);
-        otherPurposeText.setText("🎯 Other sessions: " + otherCount);
+        // Count sessions by subject
+        int studyCount = 0;
+        int workCount = 0;
+        int otherCount = 0;
+
+        for (Session session : allSessions) {
+            String subject = session.getSubject().toLowerCase();
+            if (subject.equals("study")) {
+                studyCount++;
+            } else if (subject.equals("work")) {
+                workCount++;
+            } else if (subject.equals("other")) {
+                otherCount++;
+            } else {
+                // Count custom subjects as "General"
+                otherCount++;
+            }
+        }
+
+        String summary = "📚 Study: " + studyCount + "  |  💼 Work: " + workCount + "  |  🎯 Other: " + otherCount;
+        subjectSummaryText.setText(summary);
     }
 }
